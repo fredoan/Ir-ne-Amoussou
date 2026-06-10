@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Irène Amoussou Zanda | Oratrice d'impact</title>
+  <!-- Google Fonts pour une typographie élégante -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* -------------------- VARIABLES & RESET -------------------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --gold: #c69b4b;
+      --gold-light: #e0c27b;
+      --dark: #1a1a1a;
+      --darker: #0f0f0f;
+      --light: #f8f5f0;
+      --white: #ffffff;
+      --gray: #4a4a4a;
+      --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--light);
+      color: var(--dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* -------------------- LOADER -------------------- */
+    .loader {
+      position: fixed;
+      inset: 0;
+      background: var(--darker);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+
+    .loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader-quote {
+      text-align: center;
+      color: var(--gold);
+      font-family: var(--font-heading);
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      font-style: italic;
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.4; transform: scale(0.96); }
+      50% { opacity: 1; transform: scale(1.02); }
+      100% { opacity: 0.4; transform: scale(0.96); }
+    }
+
+    /* -------------------- ANIMATIONS DES SECTIONS -------------------- */
+    .section-hidden {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .section-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Délais progressifs pour les enfants dans une section visible */
+    .section-visible .stagger-child {
+      opacity: 0;
+      animation: fadeUp 0.7s forwards;
+    }
+    .section-visible .stagger-child:nth-child(1) { animation-delay: 0.1s; }
+    .section-visible .stagger-child:nth-child(2) { animation-delay: 0.2s; }
+    .section-visible .stagger-child:nth-child(3) { animation-delay: 0.3s; }
+    .section-visible .stagger-child:nth-child(4) { animation-delay: 0.4s; }
+    .section-visible .stagger-child:nth-child(5) { animation-delay: 0.5s; }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* -------------------- TYPOGRAPHIE -------------------- */
+    h1, h2, h3 {
+      font-family: var(--font-heading);
+      font-weight: 600;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      color: var(--dark);
+      position: relative;
+      display: inline-block;
+      margin-bottom: 2rem;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 60%;
+      height: 3px;
+      background: var(--gold);
+      border-radius: 2px;
+    }
+
+    /* -------------------- NAVIGATION -------------------- */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(15, 15, 15, 0.92);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      padding: 0.8rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: var(--transition);
+    }
+
+    .nav-logo {
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      color: var(--gold);
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--white);
+      font-weight: 400;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      position: relative;
+      padding: 0.3rem 0;
+      transition: color 0.3s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 1.5px;
+      background: var(--gold);
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold-light);
+    }
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+    .burger span {
+      width: 25px;
+      height: 2px;
+      background: var(--gold);
+      transition: var(--transition);
+    }
+
+    /* -------------------- HERO / ACCUEIL -------------------- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0f0f0f 0%, #1e1e1e 100%);
+      color: var(--white);
+      padding: 6rem 2rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 3rem;
+      max-width: 1100px;
+      width: 100%;
+      z-index: 2;
+    }
+
+    .hero-text {
+      flex: 1 1 400px;
+    }
+
+    .hero-text h1 {
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      color: var(--gold);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeUp 1s forwards 0.5s;
+    }
+
+    .hero-text .subtitle {
+      font-size: 1.2rem;
+      font-weight: 300;
+      margin-bottom: 1.5rem;
+      color: #ccc;
+      opacity: 0;
+      animation: fadeUp 1s forwards 0.7s;
+    }
+
+    .hero-text .tagline {
+      font-style: italic;
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      color: var(--gold-light);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 1s forwards 0.9s;
+    }
+
+    .btn-gold {
+      display: inline-block;
+      background: transparent;
+      border: 2px solid var(--gold);
+      color: var(--gold);
+      padding: 0.8rem 2.2rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      border-radius: 2px;
+    }
+
+    .btn-gold:hover {
+      background: var(--gold);
+      color: #0f0f0f;
+    }
+
+    .hero-image {
+      flex: 0 0 280px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid var(--gold);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      opacity: 0;
+      animation: fadeUp 1s forwards 0.6s;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      aspect-ratio: 1/1;
+    }
+
+    /* -------------------- SECTIONS COMMUNES -------------------- */
+    section {
+      padding: 5rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .about, .parcours, .expertises, .medias, .contact {
+      background: var(--white);
+    }
+
+    .parcours {
+      background: #f9f6f1;
+    }
+
+    /* -------------------- À PROPOS -------------------- */
+    .about-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .about-text {
+      flex: 1 1 400px;
+    }
+
+    .about-text p {
+      margin-bottom: 1.2rem;
+      color: var(--gray);
+    }
+
+    .about-image {
+      flex: 0 0 220px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    }
+
+    .about-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* -------------------- PARCOURS -------------------- */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .timeline-item {
+      background: var(--white);
+      padding: 1.8rem;
+      border-left: 4px solid var(--gold);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      border-radius: 0 4px 4px 0;
+    }
+
+    .timeline-item h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .timeline-item .date {
+      font-size: 0.85rem;
+      color: var(--gold);
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 0.8rem;
+    }
+
+    /* -------------------- EXPERTISES -------------------- */
+    .expertise-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+    }
+
+    .expertise-card {
+      background: var(--light);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      border-radius: 6px;
+      transition: var(--transition);
+    }
+
+    .expertise-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0,0,0,0.08);
+    }
+
+    .expertise-card .icon {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .expertise-card h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+    }
+
+    /* -------------------- MÉDIAS & PRESTATIONS -------------------- */
+    .media-placeholder {
+      background: #eae5db;
+      padding: 3rem 2rem;
+      text-align: center;
+      border-radius: 8px;
+      margin: 2rem 0;
+      color: var(--gray);
+      font-style: italic;
+    }
+
+    .services-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      margin-top: 2rem;
+    }
+
+    .service-badge {
+      background: var(--gold);
+      color: #0f0f0f;
+      padding: 0.6rem 1.4rem;
+      border-radius: 30px;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    /* -------------------- CONTACT -------------------- */
+    .contact-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3rem;
+    }
+
+    .contact-info {
+      flex: 1 1 280px;
+    }
+
+    .contact-info a {
+      color: var(--dark);
+      text-decoration: none;
+      border-bottom: 1px dotted var(--gold);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1.2rem;
+      margin-top: 1.5rem;
+      font-size: 1.5rem;
+    }
+
+    .social-links a {
+      color: var(--dark);
+      transition: color 0.3s;
+    }
+    .social-links a:hover {
+      color: var(--gold);
+    }
+
+    .contact-form {
+      flex: 1 1 350px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 0.9rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: var(--font-body);
+      background: var(--white);
+      transition: border 0.3s;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .contact-form button {
+      align-self: flex-start;
+      background: var(--dark);
+      color: var(--white);
+      border: none;
+      padding: 0.8rem 2.5rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .contact-form button:hover {
+      background: var(--gold);
+      color: #0f0f0f;
+    }
+
+    /* -------------------- FOOTER -------------------- */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: var(--darker);
+      color: #aaa;
+      font-size: 0.85rem;
+    }
+
+    /* -------------------- RESPONSIVE -------------------- */
+    @media (max-width: 768px) {
+      .nav-links {
+        position: fixed;
+        top: 70px;
+        right: -100%;
+        background: rgba(15,15,15,0.96);
+        flex-direction: column;
+        width: 70%;
+        height: 100vh;
+        padding: 3rem 2rem;
+        gap: 2rem;
+        transition: right 0.4s;
+      }
+      .nav-links.active {
+        right: 0;
+      }
+      .burger {
+        display: flex;
+      }
+      .hero-content {
+        flex-direction: column-reverse;
+        text-align: center;
+      }
+      .hero-image {
+        flex: 0 0 200px;
+      }
+      h2::after {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Loader -->
+  <div class="loader" id="loader">
+    <div class="loader-quote">« Les mots justes, au bon moment,<br>peuvent changer une vie. »</div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-logo">IAZ</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#accueil">Accueil</a></li>
+      <li><a href="#a-propos">À propos</a></li>
+      <li><a href="#parcours">Parcours</a></li>
+      <li><a href="#expertises">Expertises</a></li>
+      <li><a href="#medias">Médias</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="burger" id="burger">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- HERO / ACCUEIL -->
+  <section id="accueil" class="hero">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1>Irène Amoussou Zanda</h1>
+        <p class="subtitle">Oratrice d'impact · Juriste · Photographe en devenir</p>
+        <p class="tagline">« Donner une voix aux idées qui méritent d’être entendues. »</p>
+        <a href="#contact" class="btn-gold">Collaborons</a>
+      </div>
+      <div class="hero-image">
+        <!-- Remplacez "aph.jpg" par le chemin correct de votre image -->
+        <img src="aph.jpeg" alt="Portrait d'Irène Amoussou Zanda">
+      </div>
+    </div>
+  </section>
+
+  <!-- À PROPOS -->
+  <section id="a-propos" class="about section-hidden">
+    <h2>À propos</h2>
+    <div class="about-grid">
+      <div class="about-text stagger-child">
+        <p><strong>Basée à Abomey-Calavi, Bénin</strong>, je suis juriste de formation et oratrice passionnée. Ma conviction est que l’éloquence peut transformer les idées en émotions et les convictions en mouvements collectifs.</p>
+        <p>Mon parcours m’a menée des bancs de la Faculté de Droit et de Science Politique (Université d’Abomey-Calavi) jusqu’aux scènes des plus prestigieux concours d’art oratoire. Aujourd’hui, je mets ma voix au service de la jeunesse, de la démocratie et de toutes les causes qui méritent d’être portées avec force et justesse.</p>
+        <p>Photographe en devenir, je crois que l’image, tout comme le verbe, peut capturer l’essentiel et révéler l’invisible.</p>
+      </div>
+      <div class="about-image stagger-child">
+        <img src="aph.jpg" alt="Irène Amoussou Zanda">
+      </div>
+    </div>
+  </section>
+
+  <!-- PARCOURS & RÉALISATIONS -->
+  <section id="parcours" class="parcours section-hidden">
+    <h2>Parcours & Réalisations</h2>
+    <div class="timeline">
+      <div class="timeline-item stagger-child">
+        <div class="date">2026</div>
+        <h3>Concours National d'Art Oratoire (CNAO)</h3>
+        <p>Candidate <em>Amoussou Zanda Irene Mawulonm</em> – 411 votes (2,7%). Une expérience marquante qui a révélé la puissance de ma prise de parole.</p>
+      </div>
+      <div class="timeline-item stagger-child">
+        <div class="date">JVF 11<sup>e</sup> édition</div>
+        <h3>Prix du Public #JVF11</h3>
+        <p>Lauréate du Prix du Public aux Joutes Verbales Francophones, preuve de l’impact émotionnel de mes discours auprès du public.</p>
+      </div>
+      <div class="timeline-item stagger-child">
+        <div class="date">Engagement continu</div>
+        <h3>Plaidoyer pour la jeunesse et la démocratie</h3>
+        <p>« La voix des jeunes femmes pour une démocratie d’avenir » – interventions, conférences et coaching en art oratoire.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERTISES -->
+  <section id="expertises" class="expertises section-hidden">
+    <h2>Expertises</h2>
+    <div class="expertise-grid">
+      <div class="expertise-card stagger-child">
+        <div class="icon">🎤</div>
+        <h3>Éloquence</h3>
+        <p>Discours, plaidoiries, prises de parole en public, art de convaincre et d’émouvoir.</p>
+      </div>
+      <div class="expertise-card stagger-child">
+        <div class="icon">⚖️</div>
+        <h3>Droit</h3>
+        <p>Analyse juridique, conseil, sensibilisation aux droits fondamentaux et à la justice sociale.</p>
+      </div>
+      <div class="expertise-card stagger-child">
+        <div class="icon">📸</div>
+        <h3>Photographie</h3>
+        <p>Regard artistique en développement, portraits, reportage, mise en lumière des récits visuels.</p>
+      </div>
+      <div class="expertise-card stagger-child">
+        <div class="icon">🚀</div>
+        <h3>Entrepreneuriat</h3>
+        <p>Coaching en leadership vocal, mentorat pour jeunes orateurs, organisation d’événements.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MÉDIAS & PRESTATIONS -->
+  <section id="medias" class="medias section-hidden">
+    <h2>Médias & Prestations</h2>
+    <div class="media-placeholder stagger-child">
+      <p>🎥 Vidéos de discours et interventions à venir<br>(espace réservé aux intégrations YouTube, extraits de conférences)</p>
+    </div>
+    <div class="stagger-child">
+      <h3 style="margin-top:2rem;">Services proposés</h3>
+      <div class="services-list">
+        <span class="service-badge">Coaching en prise de parole</span>
+        <span class="service-badge">Maître de cérémonie</span>
+        <span class="service-badge">Conférences</span>
+        <span class="service-badge">Conseil juridique</span>
+        <span class="service-badge">Modération de panels</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact section-hidden">
+    <h2>Contact</h2>
+    <div class="contact-wrapper">
+      <div class="contact-info stagger-child">
+        <p><strong>Email :</strong> <a href="mailto:irene.amoussou@example.com">irene.amoussou@example.com</a></p>
+        <p><strong>Localisation :</strong> Abomey-Calavi, Bénin</p>
+        <div class="social-links">
+          <a href="https://facebook.com/irene.amoussouzanda" target="_blank" title="Facebook">📘</a>
+          <a href="https://twitter.com/ZandaIrene" target="_blank" title="Twitter">🐦</a>
+          <a href="https://linkedin.com/in/irene-amoussou" target="_blank" title="LinkedIn">🔗</a>
+        </div>
+      </div>
+      <form class="contact-form stagger-child" action="#" method="post">
+        <input type="text" placeholder="Votre nom" required>
+        <input type="email" placeholder="Votre email" required>
+        <textarea rows="5" placeholder="Votre message..." required></textarea>
+        <button type="submit">Envoyer</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Irène Amoussou Zanda – Tous droits réservés. Conçu avec passion.</p>
+  </footer>
+
+  <script>
+    (function() {
+      // ----- LOADER -----
+      const loader = document.getElementById('loader');
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          loader.classList.add('hidden');
+        }, 800);
+      });
+
+      // ----- BURGER MENU -----
+      const burger = document.getElementById('burger');
+      const navLinks = document.getElementById('navLinks');
+      burger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+      });
+      // Fermer le menu au clic sur un lien
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('active');
+        });
+      });
+
+      // ----- INTERSECTION OBSERVER POUR ANIMATION DES SECTIONS -----
+      const sections = document.querySelectorAll('.section-hidden');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('section-visible');
+            // On peut arrêter d'observer une fois visible
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
+
+      sections.forEach(section => observer.observe(section));
+
+      // ----- AJOUT DU STAGGER-CHILD SUR LES ÉLÉMENTS PERTINENTS -----
+      // (Les classes stagger-child sont déjà dans le HTML, mais on peut les ajouter dynamiquement si besoin)
+      // Pour garantir que les animations se déclenchent même si la classe est déjà présente,
+      // on réapplique l'animation en retirant/ajoutant la classe (géré via CSS avec section-visible parent).
+    })();
+  </script>
+</body>
+</html>
